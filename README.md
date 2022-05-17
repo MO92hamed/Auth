@@ -1,6 +1,6 @@
 # Authentication
 
-this project is an authentication systeme 
+this project is an authentication systeme using Node.js expressjs and MongoDB
 
 
 
