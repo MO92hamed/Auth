@@ -17,6 +17,9 @@ connecting with weather API ( based on Express.js and Request ) that will return
 ## Roadmap
 
 - Create server
+ ```bash
+ app.listen(3000, () => console.log('Server Up and Running'))
+ ```
 
 - Add auth-router
 
