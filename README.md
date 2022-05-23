@@ -1,6 +1,7 @@
 # Authentication
 
-this project is an authentication systeme using Node.js expressjs and MongoDB
+In this project we are creating an authentication systeme using Node.js expressjs and MongoDB, JWT ;
+connecting with weather API ( based on Express.js and Request ) that will return the weather description of a city that gets to the backend using the city name transported by a get request.
 
 
 
