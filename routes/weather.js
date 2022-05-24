@@ -15,6 +15,7 @@ router.get('/weather', (req, res) => {
             getWeather(undefined, {
                 cityName: body.name, 
 			    temperature: body.main.temp,
+                temperatureMinimum: body.main.temp_min,
 				humidity: body.main.humidity,
                 description: body.weather[0].description
                 
@@ -29,16 +30,17 @@ router.get('/weather', (req, res) => {
         })
     }
 
-    weatherData(city, (error, {cityName,temperature, humidity, description} = {}) => {
+    weatherData(city, (error, {cityName,temperature,temperatureMinimum, humidity, description} = {}) => {
         if(error) {
             return res.send({
                 error
             })
         }
-        console.log(cityName, temperature, humidity, description);
+        console.log(cityName, temperature,temperatureMinimum, humidity, description);
         res.send({
             cityName,
 			temperature,
+            temperatureMinimum,
 			humidity,
             description
             
