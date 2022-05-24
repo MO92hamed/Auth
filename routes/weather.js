@@ -1,11 +1,10 @@
 const router = require('express').Router()
-const request = require('request');
-
+const  request = require('request');
 
 
 router.get('/', (req, res) => {
 	let city = req.query.city;
-	const  request = require('request');
+	
 	request(
 		`https://samples.openweathermap.org/data/2.5/forecast?q=${city}&appid=(process.env.API_KEY)`,
 		function(error, response, body) {
