@@ -3,16 +3,16 @@ const  request = require('request');
 
 router.get('/weather', (req, res) => {
 	const  city = req.query.city;
-	const weatherData = (city, callback) => {
+	const weatherData = (city, getWeather) => {
 	
     const url =   process.env.BASE_URL + encodeURIComponent(city) + '&appid=' + process.env.SECRET_KEY
     request({url, json:true}, (error, {body})=> {
         if(error) {
-            callback("Can't fetch data from open weather map api ", undefined)
+            getWeather("Can't fetch data from open weather map api ", undefined)
         } else if(!body.main || !body.main.temp || !body.name || !body.weather) {
-            callback("Unable to find required data, try another location", undefined);
+            getWeather("Unable to find required data, try another location", undefined);
         } else {
-            callback(undefined, {
+            getWeather(undefined, {
                 cityName: body.name, 
 			    temperature: body.main.temp,
 				humidity: body.main.humidity,
