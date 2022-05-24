@@ -23,4 +23,4 @@ app.use('/api/user', authRoute)
 app.use('/api/posts', postRoute)
 app.use('', weatherRoute)
 
-app.listen(4000, () => console.log('Server Up and Running'))
+app.listen(4000, () => console.log('Server Up and Running'));
