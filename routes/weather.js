@@ -53,6 +53,6 @@ router.get("*", (req, res) => {
         title: "page not found"
     })
 })
- 
 
+ 
 module.exports = router;
