@@ -19,7 +19,7 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 app.use(express.json())
 
 //Routes Middlewares
-app.use('/api/user', authRoute)
+app.use('/api/user', authRoute);
 app.use('/api/posts', postRoute)
 app.use('', weatherRoute)
 
