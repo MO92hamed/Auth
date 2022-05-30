@@ -1,7 +1,18 @@
 const router = require('express').Router()
 const  request = require('request');
+const mongoose = require('mongoose')
 
-router.get('/weather', (req, res) => {
+const getWeather = new mongoose.Schema({
+        cityName: String, 
+		temperature: String,
+        temperatureMinimum: String,
+		humidity: String,
+        description: String
+})
+
+const cityModel = mongoose.model('city', getWeather)
+
+router.get('/weather', async(req, res) => {
 	const  city = req.query.city;
 	const weatherData = (city, getWeather) => {
 	
@@ -30,22 +41,23 @@ router.get('/weather', (req, res) => {
         })
     }
 
-    weatherData(city, (error, {cityName,temperature,temperatureMinimum, humidity, description} = {}) => {
+    const weather = getWeather
+    weatherData(city, (error, weather) => {
         if(error) {
             return res.send({
                 error
             })
         }
-        console.log(cityName, temperature,temperatureMinimum, humidity, description);
-        res.send({
-            cityName,
-			temperature,
-            temperatureMinimum,
-			humidity,
-            description
-            
-        })
+        console.log(weather);
+        res.send({weather })
     })
+
+   // try {
+   //     const weatherSaved = await weather.save()
+   //     res.send({ weather: weather.cityName })
+   // }catch (err){
+   //     res.status(400).send(err)
+   // }
 });
 
 router.get("*", (req, res) => {
