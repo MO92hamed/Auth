@@ -1,19 +1,19 @@
 # Authentication
 
 In this project we are creating an authentication systeme using Node.js expressjs MongoDB and JWT ;
-connecting with weather API ( based on Express.js and Request ) that will return some information (city name, temperatue, humidity and description of the weather) of a city that gets to the backend using the city name transported by a get request.
+connecting with weather API ( based on Express.js and Request ) that will return some information (city name, temperatue, humidity and description of the weather) of a city that gets to the backend using the city name transported by a get request and saving them to the database .
 
 
 
 ## Dependencies
-- express
-- bcrypt
-- dotenv
-- mongoose
-- jsonwebtoken
-- joi
-- request
--  nodemon
+- Express
+- Bcrypt
+- Dotenv
+- Mongoose
+- Jsonwebtoken
+- Joi
+- Request
+-  Nodemon
 ## Roadmap
 
 - Create server
@@ -23,7 +23,7 @@ connecting with weather API ( based on Express.js and Request ) that will return
 
 - Add auth-router
 
-- connect with database
+- Connect with database
 ```bash
 //connect to DB
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
@@ -33,9 +33,9 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 
 - Create user with POST /auth/register
 
-   - check if email is unique
+   - Check if email is unique
    
-   - hash pasword
+   - Hash pasword
 
 ```bash
 
@@ -44,7 +44,7 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
         const hashPassword = await bcrypt.hash(req.body.password, saltRounds)
 ```
 
-   - insert into database
+   - Insert into database
 
 - Login user with POST /auth/LOGIN    
 
@@ -52,7 +52,7 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 
    - Compare password with hashed password in database.
 
-   - create and assign a JWT 
+   - Create and assign a JWT 
 
  ```bash
  
@@ -64,25 +64,11 @@ mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 
 })  
  ```
- - connect with a real time weather api and fetch a data
+ - Connect with a real time weather api and fetch a data
 
-```bash
- router.get('/', (req, res) => {
-	let city = req.query.city;
-	const  request = require('request');
-	request(
-		`https://samples.openweathermap.org/data/2.5/forecast?q=${city}&appid=(process.env.API_KEY)`,
-		function(error, response, body) {
-			let data = JSON.parse(body);
-			if (response.statusCode === 200) {
-				res.send(`The weather in your city "${city}" is ${data.list[0].weather[0].description}`);
-			}
-		}
-	);
-});
-```
+ - Add weather-router 
 
-- Add weather-router 
+ - Save weather Data to database
 
 ```bash
 //Import Routes
