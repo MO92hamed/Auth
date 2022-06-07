@@ -58,7 +58,18 @@ router.get('/weather', async(req, res) => {
    // }catch (err){
    //     res.status(400).send(err)
    // }
+   const newWeather = new cityModel ()
+   
+   newWeather.save((err, weather) => {
+       try{
+           res.send(weather)
+       } catch(err) {
+           res.status(400).send(err)
+       }
+   })
+
 });
+
 
 router.post('/weather', async(req, res) => {
     const newWeather = new cityModel()
