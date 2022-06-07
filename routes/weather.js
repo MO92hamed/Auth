@@ -71,23 +71,23 @@ router.get('/weather', async(req, res) => {
 });
 
 
-router.post('/weather', async(req, res) => {
-    const newWeather = new cityModel()
+//router.post('/weather', async(req, res) => {
+   // const newWeather = new cityModel()
 
-    newWeather.cityName = getWeather.cityName
-    newWeather.temperature = getWeather.temperature
-    newWeather.temperatureMinimum = getWeather.temperatureMinimum
-    newWeather.humidity = getWeather.humidity
-    newWeather.description = getWeather.description
+   // newWeather.cityName = getWeather.cityName
+   // newWeather.temperature = getWeather.temperature
+   // newWeather.temperatureMinimum = getWeather.temperatureMinimum
+   // newWeather.humidity = getWeather.humidity
+   // newWeather.description = getWeather.description
 
-    newWeather.save(function(err, weather) {
-        if(err) {
-            res.send('error saving data')
-        }else {
-            res.send(newWeather)
-        }
-    })
-})
+    //newWeather.save(function(err, weather) {
+    //    if(err) {
+    //        res.send('error saving data')
+    //    }else {
+    //        res.send(newWeather)
+    //    }
+   // })
+//})
 
 router.get("*", (req, res) => {
     res.render('404', {
