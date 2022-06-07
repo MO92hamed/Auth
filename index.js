@@ -11,9 +11,9 @@ const weatherRoute = require('./routes/weather')
 dotenv.config()
 
 //connect to DB
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
-   () => console.log('connected to DB!')
-)
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true })
+   .then(() => console.log('connected to DB!'))
+   .catch(e => console.log(e)) 
 
 //Middleware
 app.use(express.json())
