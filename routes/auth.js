@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const { registerValidation, loginValidation } = require('../validation');
 
+
 router.post('/register', async (req, res) => {
    //VALIDATE DATA BEFORE CREATIONG USER 
    // const { error } = schema.validate(req.body);
@@ -39,8 +40,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
    
     //VALIDATE DATA BEFORE CREATIONG USER 
-   const { error } = loginValidation(req.body);
-   if(error) return res.status(400).send(error.details[0].message);
+    const { error } = loginValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
    
     //checking if the email exists
    const user = await User.findOne({email: req.body.email})
@@ -52,9 +53,9 @@ router.post('/login', async (req, res) => {
    
     //create and assign a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-    res.header('auth-token', token).send(token)
+     //res.header('auth-token', token).send(token)
 
-   //res.send('Logged In!')
+   res.send('Logged In!')
 
 })  
 
