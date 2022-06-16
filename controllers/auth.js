@@ -1,10 +1,14 @@
 const express = require('express')
 const User = require('../model/User');
+
 const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
+
 const bcrypt = require('bcrypt')
 const { signupValidation, signinValidation } = require('../validation');
-const router = require('../routes/weather');
+
+const sgmail = require('@sendgrid/mail')
+
 
 exports.signup = async (req, res) => {
     //VALIDATE DATA BEFORE CREATIONG USER 
