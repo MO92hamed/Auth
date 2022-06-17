@@ -11,6 +11,7 @@ connecting with weather API ( based on Express.js and Request ) that will return
 - Dotenv
 - Mongoose
 - Jsonwebtoken
+- Express-jwt
 - Joi
 - Request
 -  Nodemon
