@@ -1,26 +1,35 @@
 const express = require('express')
+
+//mongoDB user model
 const User = require('../model/User');
+
+//mongoDB user verification model
+const UserVerification = require('../model/UserVerification')
+
 
 const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
 
+//password handler
 const bcrypt = require('bcrypt')
 const { signupValidation, signinValidation } = require('../validation');
 
-const sgmail = require('@sendgrid/mail')
 
-
+            //SignUp
 exports.signup = async (req, res) => {
     //VALIDATE DATA BEFORE CREATIONG USER 
-    // const { error } = schema.validate(req.body);
     const { error } = signupValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).json({
+          status: "FAILED",
+          message: error.details[0].message
+        });
  
      //checking if the user is already exist in the Database
      const emailExist = await User.findOne({email: req.body.email})
      if(emailExist) 
      return res.status(400).json({
-        error: "Email already exists"
+        status: "FAILED",
+        message: "Email already exists"
        })
  
      //Hash passwords
@@ -37,35 +46,47 @@ exports.signup = async (req, res) => {
      try {
          const savedUser = await user.save();
          res.json({ 
-            message: "Success",
+            status: "SUCCES",
+            message: "Signup Successful ",
             savedUser
         });
  
      }catch(err){
          res.status(400).json({
-            error: "Unable to save to DB"
+            status:"FAILED",
+            message: "Unable to save to DB"
          });
      }
  
+     
 }
 
+         //SignIn
 exports.signin = async (req, res) => {
    
     //VALIDATE DATA BEFORE CREATIONG USER 
     const { error } = signinValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).json({
+         status:"FAILED",
+         message: error.details[0].message
+        });
    
     //checking if the email exists
    const user = await User.findOne({email: req.body.email})
    if(!user) return res.status(400).json({
-    error: 'Email is not found'
+    status: "FAILED",
+    message: 'Email is not found'
    })
 
     //PASSWORD IS CORRECT ?!
    const validPass = await bcrypt.compare(req.body.password, user.password)
    if(!validPass) return res.status(400).json({
-    error:'Invalid Password'
+      status:"FAILED",
+      message:'Invalid Password'
    }) 
+
+   
+
    
     //create and assign a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
@@ -82,12 +103,14 @@ exports.signin = async (req, res) => {
    //SEND RESPONSE TO FRONTEND
    const {_id, name, email} = user
    return res.json ({
-    token,
-    user: {
+      status: "SUCCESS",
+      message: "Signin Successful",
+      token,
+      user: {
         _id,
         name,
         email
-    }
+      }
    })
 
 }
@@ -95,6 +118,8 @@ exports.signin = async (req, res) => {
 exports.signout = (req, res) => {
     res.clearCookie('token')
     return res.json({
+        status: "FAILED",
         message: "User Signout Successful"
     })
 }
+
