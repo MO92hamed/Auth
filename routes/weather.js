@@ -14,6 +14,8 @@ const getWeather = new mongoose.Schema({
 
 const cityModel = mongoose.model('City', getWeather)
 
+
+//Fetching data from weather api
 router.get('/weather', async(req, res) => {
 	const  city =  req.query.city;
 	const weatherData = (city, getWeather) => {
