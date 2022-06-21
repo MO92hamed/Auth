@@ -2,6 +2,8 @@ const router = require('express').Router()
 const  request = require('request');
 const mongoose = require('mongoose')
 
+
+
 const getWeather = new mongoose.Schema({
         cityName: String, 
 		temperature: String,
@@ -17,6 +19,7 @@ router.get('/weather', async(req, res) => {
 	const weatherData = (city, getWeather) => {
 	
     const url =   process.env.BASE_URL + encodeURIComponent(city) + '&appid=' + process.env.SECRET_KEY
+
     request({url, json:true}, (error, {body})=> {
         if(error) {
             getWeather("Can't fetch data from open weather map api ", undefined)
@@ -37,7 +40,8 @@ router.get('/weather', async(req, res) => {
     
     if(!city) {
         return res.json({
-            "error": "You must enter city in search text box"
+            status: FAILED,
+            error: "You must enter city in search text box"
         })
     }
 

@@ -1,30 +1,38 @@
 const express = require('express')
 
-//mongoDB user model
+ //env  variables
+require('dotenv').config()
+
+ //mongoDB user model
 const User = require('../model/User');
 
-//mongoDB user verification model
+ //mongoDB user verification model
 const UserVerification = require('../model/UserVerification')
 
-
+ //Token handler
 const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
 
-//password handler
+
+ //password handler
 const bcrypt = require('bcrypt')
+
+//import (signin, signup)validation
 const { signupValidation, signinValidation } = require('../validation');
 
 
-            //SignUp
+                                 //SIGNUP
+
 exports.signup = async (req, res) => {
-    //VALIDATE DATA BEFORE CREATIONG USER 
+
+     //VALIDATE DATA BEFORE CREATIONG USER 
     const { error } = signupValidation(req.body);
     if(error) return res.status(400).json({
           status: "FAILED",
           message: error.details[0].message
         });
  
-     //checking if the user is already exist in the Database
+      //Checking if the user is already exist in the Database
      const emailExist = await User.findOne({email: req.body.email})
      if(emailExist) 
      return res.status(400).json({
@@ -32,11 +40,11 @@ exports.signup = async (req, res) => {
         message: "Email already exists"
        })
  
-     //Hash passwords
+      //Hash passwords
          const saltRounds =10
          const hashPassword = await bcrypt.hash(req.body.password, saltRounds)
        
-     //create a new user
+      //Create a new user
      const user = new User({
          name: req.body.name,
          email: req.body.email,
@@ -61,7 +69,8 @@ exports.signup = async (req, res) => {
      
 }
 
-         //SignIn
+                                       //SIGNIN
+
 exports.signin = async (req, res) => {
    
     //VALIDATE DATA BEFORE CREATIONG USER 
@@ -71,7 +80,7 @@ exports.signin = async (req, res) => {
          message: error.details[0].message
         });
    
-    //checking if the email exists
+    //Checking if the email exists
    const user = await User.findOne({email: req.body.email})
    if(!user) return res.status(400).json({
     status: "FAILED",
@@ -88,7 +97,7 @@ exports.signin = async (req, res) => {
    
 
    
-    //create and assign a token
+     //Create and assign a token
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
      //res.header('auth-token', token).send(token)
 
